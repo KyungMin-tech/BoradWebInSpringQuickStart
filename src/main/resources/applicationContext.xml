@@ -7,8 +7,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	<context:component-scan base-package="day01.class05"></context:component-scan>
-	
-	<bean id="tv" class="day01.class05.LgTV"></bean>
+	<bean class="day01.class05.AppleSpeaker"></bean>	
 	
 	<!-- <bean id="collectionBean" 
 		class="com.springbook.ioc.injection.CollectionBean">
