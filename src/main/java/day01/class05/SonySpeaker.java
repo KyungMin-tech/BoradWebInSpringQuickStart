@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class SonySpeaker implements Speaker{
 
 	public SonySpeaker() {
-		System.out.println("===> SpnySpeaker 按眉 积己");
+		System.out.println("===> SonySpeaker 按眉 积己");
 	}
 	public void volumeUp() {
 		System.out.println("SonySpeaker---家府 棵赴促.");
