@@ -6,10 +6,21 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
-	<context:component-scan base-package="day01.class05"></context:component-scan>
+	
+	<context:component-scan base-package="com.springbook.biz" />
+	
+	<!-- 
+	<bean id="userService" class="com.springbook.biz.user.impl.UserServiceImpl">
+		<property name="userDAO" ref="userDAO"></property>
+	</bean>
+	
+	<bean id="userDAO" class="com.springbook.biz.user.impl.UserDAO"></bean>
+	 -->
+	
+	<!--<context:component-scan base-package="day01.class05"></context:component-scan>
 	<bean class="day01.class05.AppleSpeaker"></bean>	
 	
-	<!-- <bean id="collectionBean" 
+	 <bean id="collectionBean" 
 		class="com.springbook.ioc.injection.CollectionBean">
 		<property name="addressList">
 			<list>
