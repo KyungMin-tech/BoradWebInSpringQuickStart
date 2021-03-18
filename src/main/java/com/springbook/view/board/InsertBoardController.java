@@ -3,14 +3,16 @@ package com.springbook.view.board;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
 import com.springbook.biz.board.BoardVO;
 import com.springbook.biz.board.impl.BoardDAO;
-import com.springbook.view.controller.Controller;
 
 public class InsertBoardController implements Controller {
 
 	@Override
-	public String handleRequest(HttpServletRequest request, HttpServletResponse response) {// 글 등록 구현
+	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) {// 글 등록 구현
 		System.out.println("글 등록 처리");
 		
 		//1. 사용자 입력 정보 추출
@@ -29,8 +31,11 @@ public class InsertBoardController implements Controller {
 		boardDAO.insertBoard(vo);
 		
 		//3. 화면 네비게이션
-		return "getBoardList.do";// 글 등록 작업을 처리한 후에 getBoardList.do 문자열을 리턴
+		// 글 등록 작업을 처리한 후에 getBoardList.do 문자열을 리턴
 		//글 등록에 성공하면 등록된 글이 포함된 글 목록을 다시 검색해야 해서 getBoardList.do문자열을 리턴 
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:getBoardList.do");//ModelAndView객체에 getBoardList.do를 view이름으로 설정하고 리턴
+		return mav;//글 등록기능을 처리하고 나면 반드시 ModelAndView 객체를 리턴해야 한다.
 	}
 
 }

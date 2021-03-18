@@ -46,7 +46,7 @@
 <hr>
 <a href="insertBoard.jsp">글 등록</a>&nbsp;&nbsp;&nbsp;
 <a href="deleteBoard.do?seq=${board.seq}">글 삭제</a>&nbsp;&nbsp;&nbsp;
-<a href="getBoardList.do">글목록</a>
+<a href="redirect:getBoardList.do">글목록</a>
 </center>
 </body>
 </html>
