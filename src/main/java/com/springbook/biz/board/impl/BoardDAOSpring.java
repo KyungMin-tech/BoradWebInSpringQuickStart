@@ -2,65 +2,63 @@ package com.springbook.biz.board.impl;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.springbook.biz.board.BoardVO;
 
 //DAO(Data Access Object)
 @Repository
-public class BoardDAOSpring extends JdbcDaoSupport {
-	@Autowired// 트랜잭션 걸때
+public class BoardDAOSpring {
+	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	//SQL(Structured Query Language) 명령어들
-	private final String BOARD_INSERT = "insert into board(seq, title, "
-			+ "writer, content) values((select nvl"
-			+ "(max(seq), 0)+1 from board),?,?,?)";
+	// SQL 명령어들
+//	private final String BOARD_INSERT = "insert into board(seq, title, writer, content) values((select nvl(max(seq), 0)+1 from board),?,?,?)";
+	private final String BOARD_INSERT = "insert into board(seq, title, writer, content) values(?, ?, ?, ?)";
 	private final String BOARD_UPDATE = "update board set title=?, content=? where seq=?";
 	private final String BOARD_DELETE = "delete board where seq=?";
 	private final String BOARD_GET = "select * from board where seq=?";
 	private final String BOARD_LIST = "select * from board order by seq desc";
-	
-	@Autowired//생성자나 메서드, 멤버변수 위에 모두 사용할 수 있고 해당 타입의 객체를 찾아 자동으로 할당
-	public void setSuperDataSource(DataSource dataSource) {
-		super.setDataSource(dataSource);
-	}
-	
-	//CRUD(Create Read Update Delete) 기능의 메서드 구현
-	//글 등록
+	private final String BOARD_LIST_T = "select * from board where title like '%'||?||'%' order by seq desc";
+	private final String BOARD_LIST_C = "select * from board where content like '%'||?||'%' order by seq desc";
+
+	// CRUD 기능의 메소드 구현
+	// 글 등록
 	public void insertBoard(BoardVO vo) {
 		System.out.println("===> Spring JDBC로 insertBoard() 기능 처리");
-		//jdbcTemplate.update(BOARD_INSERT, vo.getSeq(), vo.getTitle(), vo.getWriter(), vo.getContent()); //트랜잭션 테스트
-		getJdbcTemplate().update(BOARD_INSERT, vo.getTitle(), vo.getWriter(), vo.getContent());
+		jdbcTemplate.update(BOARD_INSERT, vo.getSeq(), vo.getTitle(), vo.getWriter(), vo.getContent());
 	}
-	
-	//글 수정
+
+	// 글 수정
 	public void updateBoard(BoardVO vo) {
 		System.out.println("===> Spring JDBC로 updateBoard() 기능 처리");
-		getJdbcTemplate().update(BOARD_UPDATE, vo.getTitle(), vo.getContent(), vo.getSeq());
+		jdbcTemplate.update(BOARD_UPDATE, vo.getTitle(), vo.getContent(), vo.getSeq());
 	}
-	
-	//글 삭제
+
+	// 글 삭제
 	public void deleteBoard(BoardVO vo) {
 		System.out.println("===> Spring JDBC로 deleteBoard() 기능 처리");
-		getJdbcTemplate().update(BOARD_DELETE, vo.getSeq());
+		jdbcTemplate.update(BOARD_DELETE, vo.getSeq());
 	}
-	
-	//글 상세 조회
+
+	// 글 상세 조회
 	public BoardVO getBoard(BoardVO vo) {
 		System.out.println("===> Spring JDBC로 getBoard() 기능 처리");
-		Object[] args = {vo.getSeq()};
-		return getJdbcTemplate().queryForObject(BOARD_GET, args, new BoardRowMapper());
+		Object[] args = { vo.getSeq() };
+		return jdbcTemplate.queryForObject(BOARD_GET, new BoardRowMapper(), args);
 	}
-	
-	//글 목록 조회 
-	public List<BoardVO> getBoardList(BoardVO vo){
+
+	// 글 목록 조회
+	public List<BoardVO> getBoardList(BoardVO vo) {
 		System.out.println("===> Spring JDBC로 getBoardList() 기능 처리");
-		return getJdbcTemplate().query(BOARD_LIST, new BoardRowMapper());
+		Object[] args = { vo.getSearchKeyword() };
+		if (vo.getSearchCondition().equals("TITLE")) {			
+			return jdbcTemplate.query(BOARD_LIST_T, new BoardRowMapper(), args);
+		} else if (vo.getSearchCondition().equals("CONTENT")) {
+			return jdbcTemplate.query(BOARD_LIST_C, new BoardRowMapper(), args);
+		}
+		return null;
 	}
 }

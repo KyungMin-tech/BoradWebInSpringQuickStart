@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import com.springbook.biz.board.BoardVO;
 
 public class BoardRowMapper implements RowMapper<BoardVO> {
-	public BoardVO mapRow(ResultSet rs, int rowNum) throws SQLException{
+	public BoardVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		BoardVO board = new BoardVO();
 		board.setSeq(rs.getInt("SEQ"));
 		board.setTitle(rs.getString("TITLE"));
@@ -18,6 +18,4 @@ public class BoardRowMapper implements RowMapper<BoardVO> {
 		board.setCnt(rs.getInt("CNT"));
 		return board;
 	}
-	
-
 }

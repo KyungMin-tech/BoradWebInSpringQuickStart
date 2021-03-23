@@ -10,61 +10,63 @@ public class JDBCUtil {
 		try {
 			Class.forName("org.h2.Driver");
 			return DriverManager.getConnection("jdbc:h2:tcp://localhost/~/test", "sa", "");
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	public static void close(PreparedStatement pstmt, Connection conn) {
-		if(pstmt != null) {
+
+	public static void close(PreparedStatement stmt, Connection conn) {
+		if (stmt != null) {
 			try {
-				if(!pstmt.isClosed()) pstmt.close();
-			}catch(Exception e) {
+				if (!stmt.isClosed())
+					stmt.close();
+			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				pstmt = null;
+				stmt = null;
 			}
 		}
-		
-		if(conn != null) {
+		if (conn != null) {
 			try {
-				if(!conn.isClosed()) conn.close();
-			}catch(Exception e) {
+				if (!conn.isClosed())
+					conn.close();
+			} catch (Exception e) {
 				e.printStackTrace();
-			}finally {
+			} finally {
 				conn = null;
 			}
 		}
 	}
-	
-	public static void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
-		if(rs != null) {
+
+	public static void close(ResultSet rs, PreparedStatement stmt, Connection conn) {
+		if (rs != null) {
 			try {
-				if(!rs.isClosed()) rs.close();
-			}catch (Exception e) {
+				if (!rs.isClosed())
+					rs.close();
+			} catch (Exception e) {
 				e.printStackTrace();
-			}finally {
+			} finally {
 				rs = null;
 			}
 		}
-		
-		if(pstmt != null) {
+		if (stmt != null) {
 			try {
-				if(!pstmt.isClosed()) pstmt.close();
-			}catch(Exception e) {
+				if (!stmt.isClosed())
+					stmt.close();
+			} catch (Exception e) {
 				e.printStackTrace();
-			}finally {
-				pstmt = null;
+			} finally {
+				stmt = null;
 			}
 		}
-		
-		if(conn != null) {
+		if (conn != null) {
 			try {
-				if(!conn.isClosed()) conn.close();
-			}catch(Exception e) {
+				if (!conn.isClosed())
+					conn.close();
+			} catch (Exception e) {
 				e.printStackTrace();
-			}finally {
+			} finally {
 				conn = null;
 			}
 		}
